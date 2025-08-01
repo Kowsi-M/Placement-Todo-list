@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Placement To-Do List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>📋 Placement To-Do List</h1>
+
+  <div class="input-section">
+    <input type="text" id="taskName" placeholder="Task Name" />
+    <input type="date" id="startDate" />
+    <input type="date" id="endDate" />
+    <select id="priority">
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+    <button onclick="addTask()">Add Task</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="taskList">
+      <!-- Tasks will appear here -->
+    </tbody>
+  </table>
+
+  <script>
+    function addTask() {
+      const taskName = document.getElementById("taskName").value;
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const priority = document.getElementById("priority").value;
+
+      if (!taskName || !startDate || !endDate) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const table = document.getElementById("taskList");
+      const row = table.insertRow();
+
+      row.insertCell(0).textContent = taskName;
+      row.insertCell(1).textContent = startDate;
+      row.insertCell(2).textContent = endDate;
+      row.insertCell(3).textContent = priority;
+
+      const statusCell = row.insertCell(4);
+      statusCell.textContent = "Pending";
+
+      const actionsCell = row.insertCell(5);
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "✅";
+      completeBtn.onclick = () => {
+        row.classList.toggle("completed");
+        statusCell.textContent = row.classList.contains("completed") ? "Completed" : "Pending";
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "🗑️";
+      deleteBtn.onclick = () => {
+        row.remove();
+      };
+
+      actionsCell.appendChild(completeBtn);
+      actionsCell.appendChild(deleteBtn);
+
+      // Reset input fields
+      document.getElementById("taskName").value = "";
+      document.getElementById("startDate").value = "";
+      document.getElementById("endDate").value = "";
+      document.getElementById("priority").value = "High";
+    }
+  </script>
+</body>
+</html>
